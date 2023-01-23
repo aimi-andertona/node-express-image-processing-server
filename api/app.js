@@ -1,13 +1,15 @@
-var express = require ('express');
-var path = require('path');
-const app = require('./app');
-const pathToIndex = path.resolve(__dirname,'../client/index.html');
+const express = require('express');
+const path = require('path');
 
-app.use('/*', (req, res,) => {
-    sendFile(pathToIndex);
+const router = require('./src/router');
+
+const app = express();
+const pathToIndex = path.resolve(__dirname, '../client/index.html');
+app.use('/', router);
+app.use(express.static(path.resolve(__dirname, 'uploads')));
+app.use('/*', (request, response) => {
+  response.sendFile(pathToIndex);
 });
 
+module.exports = app;
 
-module.exprts = app.listen(3000, () => {
-    console.log(`App running on port: ${3000}`);
-  });
