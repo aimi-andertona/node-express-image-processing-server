@@ -2,14 +2,13 @@ const {Router} = require('express');
 const multer = require('multer');
 const path = require('path');
 const imageProcessor = require('./imageProcessor');
-
-// eslint-disable-next-line new-cap
 const router = Router();
 const photoPath = path.resolve(__dirname, '../../client/photo-viewer.html');
 
 const filename = (request, file, callback) => {
   callback(null, file.originalname);
 };
+
 const fileFilter = (request, file, callback) => {
   if (file.mimetype !== 'image/png') {
     request.fileValidationError = 'Wrong file type';
@@ -33,8 +32,8 @@ router.post('/upload', upload.single('photo'), async (request, response) => {
     try {
       await imageProcessor(request.file.filename);
     } catch (error) {
-
     };
+
     response.status(201).json({success: true});
   }
 });
